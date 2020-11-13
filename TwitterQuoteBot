@@ -1,0 +1,39 @@
+
+
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+
+import random
+# This function pulls a list of quotes from my documents and creates a list
+# yes I know this code is a little sloppy if anyone has any pointers to fix it up I would appreciate it im new to python
+
+def listcreator():
+    with open("/home/liam/Documents/sample") as f:
+        global mylist
+        mylist = f.read().splitlines()
+
+
+
+path = "/home/liam/Documents/chromedriver"
+driver = webdriver.Chrome(path)
+
+driver.get("https://twitter.com/login")
+
+#username and password changed, put in your username and password to use it on your account
+
+login = driver.find_element_by_name("session[username_or_email]")
+login.send_keys("username")
+
+password = driver.find_element_by_name("session[password]")
+password.send_keys("password")
+password.send_keys(Keys.RETURN)
+
+
+
+listcreator()
+
+quote = random.choice(mylist)
+
+textbox = driver.find_element_by_xpath('//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div/div/div[2]/div/div[2]/div[1]/div/div/div/div[2]/div[1]/div/div/div/div/div/div/div/div/div/div[1]/div/div/div/div[2]/div')
+textbox.send_keys(quote)
+textbox.send_keys(Keys.CONTROL,Keys.RETURN)
